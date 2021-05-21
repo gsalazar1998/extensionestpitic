@@ -1,0 +1,742 @@
+# Generado en Wed Mar 11 10:40:50 2015
+echo "Iniciando firewall version 0.2"
+# Acceso temporal para juntas inactivo
+# Setting IP forwarding to 1.
+echo 1 > /proc/sys/net/ipv4/ip_forward
+
+echo NAT
+iptables -t nat -F
+iptables -t nat -A POSTROUTING -o eth2 -j MASQUERADE
+#Not tryin 2525
+iptables -t nat -A PREROUTING -p tcp -d 200.34.32.158 --dport 25 -j DNAT --to-destination 200.34.32.158:2526
+iptables -t nat -I PREROUTING -p tcp -d 148.233.136.210 --dport 5222 -j DNAT --to-destination 148.233.136.211:5222
+1/sbin/iptables -t nat -I POSTROUTING -d 192.168.160.0/24 -j SNAT --to-source $(ifconfig tun0 | grep inet | awk -F\: {'print $2'} | awk {'print $1'})
+/sbin/iptables -t nat -I POSTROUTING -d 192.168.11.85 -j SNAT --to-source $(ifconfig tun0 | grep inet | awk -F\: {'print $2'} | awk {'print $1'})
+/sbin/iptables -t nat -I POSTROUTING -d 192.168.11.150 -j SNAT --to-source $(ifconfig tun0 | grep inet | awk -F\: {'print $2'} | awk {'print $1'})
+# POLICIES
+iptables -P INPUT ACCEPT
+iptables -P OUTPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -F
+
+iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+if [ -f "/opt/cortafuegos/allowed.external" ];
+then
+	echo "File /opt/cortafuegos/allowed.external exists."
+	for i in $(cat /opt/cortafuegos/allowed.external); do
+		echo $i
+		iptables -A FORWARD -s $i -j ACCEPT
+		iptables -A INPUT -s $i -j ACCEPT
+		iptables -A FORWARD -d $i -j ACCEPT
+		iptables -A INPUT -d $i -j ACCEPT
+	done
+else
+		echo "File /opt/cortafuegos/allowed.external does NOT exists"
+fi
+
+# LOOPBACK ACCESS
+iptables -A INPUT -s 127.0.0.1 -j ACCEPT
+iptables -A INPUT -d 127.0.0.1 -j ACCEPT
+iptables -A OUTPUT -s 127.0.0.1 -j ACCEPT
+iptables -A OUTPUT -d 127.0.0.1 -j ACCEPT
+
+# Allow Established connections
+iptables -I INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -I OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -I FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Administration
+iptables -A INPUT -s 192.168.140.0/24 -j ACCEPT
+iptables -A INPUT -d 192.168.140.0/24 -j ACCEPT
+iptables -A FORWARD -s 192.168.140.0/24 -j ACCEPT
+iptables -A INPUT -s 192.168.3.0/24 -j ACCEPT
+iptables -A INPUT -d 192.168.3.0/24 -j ACCEPT
+iptables -A FORWARD -s 192.168.3.0/24 -j ACCEPT
+iptables -A INPUT -d 192.168.120.0/24 -j ACCEPT
+iptables -A OUTPUT -d 192.168.120.0/24 -j ACCEPT
+iptables -A FORWARD -d 192.168.120.0/24 -j ACCEPT
+iptables -A INPUT -s 192.168.120.0/24 -j ACCEPT
+iptables -A OUTPUT -s 192.168.120.0/24 -j ACCEPT
+iptables -A FORWARD -s 192.168.120.0/24 -j ACCEPT
+iptables -A FORWARD -d 192.168.3.0/24 -j ACCEPT
+iptables -A INPUT -s 148.223.74.118 -j ACCEPT
+iptables -A INPUT -d 148.223.74.118 -j ACCEPT
+iptables -A FORWARD -s 148.223.74.118 -j ACCEPT
+iptables -A FORWARD -d 148.223.74.118 -j ACCEPT
+iptables -A INPUT -s 148.223.74.117 -j ACCEPT
+iptables -A INPUT -d 148.223.74.117 -j ACCEPT
+iptables -A FORWARD -s 148.223.74.117 -j ACCEPT
+iptables -A FORWARD -d 148.223.74.117 -j ACCEPT
+iptables -A INPUT -s 148.233.139.61 -j ACCEPT
+
+1# Block 16 net
+iptables -A FORWARD -d 192.168.16.0/24 -j DROP
+
+ iptables -A INPUT -s 192.168.12.0/24 -d 192.168.12.255 -j DROP
+
+ iptables -A INPUT -p tcp -s 192.168.12.0/24 -d 192.168.12.200  --destination-port 3128 -j ACCEPT
+
+# LOCAL WWW
+iptables -A INPUT -p tcp -d 192.168.12.200 --destination-port 80 -j ACCEPT
+iptables -A FORWARD -p tcp -d 192.168.12.200 --destination-port 80 -j ACCEPT
+
+### INTERTEL MAZ 
+iptables -A FORWARD -p tcp -s 10.150.12.0/24 -d 192.168.100.120 --dport 9000:9100 -j ACCEPT
+
+### VOZ MAZ 
+iptables -A FORWARD -p tcp -s 10.150.12.0/24 -d 10.150.0.0/16 -j ACCEPT
+iptables -A FORWARD -p udp -s 10.150.12.0/24 -d 10.150.0.0/16 -j ACCEPT
+iptables -A FORWARD -p tcp -d 10.150.12.0/24 -s 10.150.0.0/16 -j ACCEPT
+iptables -A FORWARD -p udp -d 10.150.12.0/24 -s 10.150.0.0/16 -j ACCEPT
+iptables -A FORWARD -p udp -d 10.150.12.0/24 -s 192.168.100.180/32 -j ACCEPT
+iptables -A FORWARD -p udp -s 10.150.12.0/24 -d 192.168.100.180/32 -j ACCEPT
+iptables -A FORWARD -d 10.150.12.0/24 -s 192.168.100.180/32 -j ACCEPT
+iptables -A FORWARD -s 10.150.12.0/24 -d 192.168.100.180/32 -j ACCEPT
+
+iptables -A FORWARD -s 192.168.3.0/24 -d 10.150.12.10/32 -j ACCEPT
+iptables -A FORWARD -s 192.168.11.0/24 -d 10.150.12.10/32 -j ACCEPT
+iptables -A FORWARD -s 192.168.140.0/24 -d 10.150.12.10/32 -j ACCEPT
+iptables -A FORWARD -s 192.168.80.0/24 -d 10.150.12.10/32 -j ACCEPT
+iptables -A FORWARD -s 192.168.100.0/24 -d 10.150.12.10/32 -j ACCEPT
+iptables -A FORWARD -s 192.168.120.0/24 -d 10.150.12.10/32 -j ACCEPT
+
+# Administracion desde Tlalnepantla
+iptables -A INPUT -s 192.168.10.162/32 -j ACCEPT
+iptables -A FORWARD -s 192.168.10.162/32 -j ACCEPT
+/sbin/route add -net 192.168.10.0 netmask 255.255.255.0 gw 192.168.112.254 2>/dev/null
+####/sbin/route add -net 192.168.12.0 netmask 255.255.255.0 gw 192.168.110.254
+
+# Service -> Squid
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 192.168.12.200/32 --dport 3128 -j ACCEPT
+
+
+# Service -> POP
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 200.34.32.158/32 --dport 110 -j ACCEPT
+
+
+# Service -> SMTP
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 200.34.32.158/32 -m multiport --dport 25,2525,2526 -j ACCEPT
+
+
+# Service -> SMTP
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 200.34.32.155/32 -m multiport --dport 25,2525,2525 -j ACCEPT
+
+
+# Service -> HTTP Soporte
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 148.233.136.209/32 -m multiport --dport 80,443 -j ACCEPT
+
+
+# Service -> HTTP Corporativo
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 148.233.136.210/32 -m multiport --dport 80,443 -j ACCEPT
+
+
+# Service -> HTTP Webmail
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 148.233.136.219/32 -m multiport --dport 80,443 -j ACCEPT
+
+
+# Service -> Jabber Server
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 148.233.136.210/32 --dport 5222 -j ACCEPT
+
+
+# Service -> Jabber Server Alternative net
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 148.233.136.219/32 --dport 5222 -j ACCEPT
+
+
+# Service -> OCS Inventory
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 192.168.100.155/32 --dport 80 -j ACCEPT
+
+
+# Service -> Net Support
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 192.168.140.124/32 --dport 5405 -j ACCEPT
+
+
+# Service -> DNS Server
+iptables -A FORWARD -p udp -s 192.168.12.0/24 -d 148.233.136.210/32 --dport 53 -j ACCEPT
+
+
+# Service -> Internal DNS Server
+iptables -A FORWARD -p udp -s 192.168.12.0/24 -d 192.168.150.2/32 --dport 53 -j ACCEPT
+
+
+# Service -> Webserver DNS Service
+iptables -A FORWARD -p udp -s 192.168.12.0/24 -d 192.168.100.2/32 --dport 53 -j ACCEPT
+
+
+# Service -> Alternate DNS Server
+iptables -A FORWARD -p udp -s 192.168.12.0/24 -d 8.8.8.8/32 --dport 53 -j ACCEPT
+
+
+# Service -> KARSPERSKI ANTIVIRUS
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 192.168.100.150/32 -m multiport --dport 13000,15000,14300,13500,14315,13427 -j ACCEPT
+
+
+# Service -> Oracle Server
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 192.168.100.132/32 -m multiport --dport 1521,1421 -j ACCEPT
+
+
+# Service -> Backup Oracle Server
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 192.168.100.143/32 -m multiport --dport 1521,1421 -j ACCEPT
+
+
+# Service -> Oracle New Server
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 192.168.100.12/32 -m multiport --dport 1521,1421 -j ACCEPT
+
+
+# Service -> Intranet Web Server
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 192.168.100.2/32 -m multiport --dport 80,443 -j ACCEPT
+
+
+# Service -> New Intranet Web Server
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 192.168.100.22/32 -m multiport --dport 80,443 -j ACCEPT
+
+
+# Service -> MySQL Server
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 192.168.100.16/32 --dport 3306 -j ACCEPT
+
+
+# Service -> SMB
+iptables -A FORWARD -p tcp -s 192.168.12.0/24 -d 192.168.12.200/32 -m multiport --dport 135,136,137,138,139 -j ACCEPT
+
+11111111111111111111111
+ iptables -A INPUT -p tcp -s 192.168.12.0/24 -d 192.168.12.200/32 -m multiport --dport 135,136,137,138,139 -j ACCEPT
+
+ iptables -A INPUT -p udp -s 192.168.12.0/24 -d 192.168.12.200/32 -m multiport --dport 135,136,137,138,139 -j ACCEPT
+
+
+# Live Meeting service
+iptables -A FORWARD -p tcp -d 204.176.46.0/24 -j ACCEPT
+iptables -A FORWARD -p tcp -d 64.41.193.0/24 -j ACCEPT
+iptables -A FORWARD -d 65.221.5.0/24 -j ACCEPT
+iptables -A FORWARD -d 66.102.5.0/24 -j ACCEPT
+
+iptables -N PAGINAS
+# www.banamex.com 
+iptables -A PAGINAS -d 199.67.180.53 -j ACCEPT
+# www.encontrack.com 
+iptables -A PAGINAS -d 99.192.255.0/24 -j ACCEPT
+# www.fathersfate.com.mx 
+iptables -A PAGINAS -d 208.113.129.205 -j ACCEPT
+# www.tpitic.com.mx 
+iptables -A PAGINAS -d 148.233.136.210 -j ACCEPT
+# www.sat.gob.mx 
+iptables -A PAGINAS -d 200.33.84.128 -j ACCEPT
+# www.infonavit.org.mx 
+iptables -A PAGINAS -d 201.134.132.144 -j ACCEPT
+# www.cpv3.com 
+iptables -A PAGINAS -d 99.192.255.0/24 -j ACCEPT
+# mt1.google.com 
+iptables -A PAGINAS -d 74.125.227.4 -j ACCEPT
+# mt1.google.com 
+iptables -A PAGINAS -d 74.125.227.3 -j ACCEPT
+# mt1.google.com 
+iptables -A PAGINAS -d 74.125.227.8 -j ACCEPT
+# mt1.google.com 
+iptables -A PAGINAS -d 74.125.227.14 -j ACCEPT
+# mt1.google.com 
+iptables -A PAGINAS -d 74.125.227.2 -j ACCEPT
+# mt1.google.com 
+iptables -A PAGINAS -d 74.125.227.1 -j ACCEPT
+# mt1.google.com 
+iptables -A PAGINAS -d 74.125.227.7 -j ACCEPT
+# mt1.google.com 
+iptables -A PAGINAS -d 74.125.227.0 -j ACCEPT
+# mt1.google.com 
+iptables -A PAGINAS -d 74.125.227.9 -j ACCEPT
+# mt1.google.com 
+iptables -A PAGINAS -d 74.125.227.6 -j ACCEPT
+# mt1.google.com 
+iptables -A PAGINAS -d 74.125.227.5 -j ACCEPT
+# mt0.google.com 
+iptables -A PAGINAS -d 74.125.227.6 -j ACCEPT
+# mt0.google.com 
+iptables -A PAGINAS -d 74.125.227.4 -j ACCEPT
+# mt0.google.com 
+iptables -A PAGINAS -d 74.125.227.1 -j ACCEPT
+# mt0.google.com 
+iptables -A PAGINAS -d 74.125.227.14 -j ACCEPT
+# mt0.google.com 
+iptables -A PAGINAS -d 74.125.227.3 -j ACCEPT
+# mt0.google.com 
+iptables -A PAGINAS -d 74.125.227.2 -j ACCEPT
+# mt0.google.com 
+iptables -A PAGINAS -d 74.125.227.9 -j ACCEPT
+# mt0.google.com 
+iptables -A PAGINAS -d 74.125.227.8 -j ACCEPT
+# mt0.google.com 
+iptables -A PAGINAS -d 74.125.227.5 -j ACCEPT
+# mt0.google.com 
+iptables -A PAGINAS -d 74.125.227.0 -j ACCEPT
+# mt0.google.com 
+iptables -A PAGINAS -d 74.125.227.7 -j ACCEPT
+# maps.gstatic.com 
+iptables -A PAGINAS -d 74.125.227.31 -j ACCEPT
+# maps.gstatic.com 
+iptables -A PAGINAS -d 74.125.227.23 -j ACCEPT
+# maps.gstatic.com 
+iptables -A PAGINAS -d 74.125.227.24 -j ACCEPT
+# maps.gstatic.com 
+iptables -A PAGINAS -d 74.125.227.15 -j ACCEPT
+# portal.infonavit.org.mx 
+iptables -A PAGINAS -d 201.134.132.184 -j ACCEPT
+# update.microsoft.com 
+iptables -A PAGINAS -d 134.170.58.221 -j ACCEPT
+# update.microsoft.com 
+iptables -A PAGINAS -d 65.55.50.189 -j ACCEPT
+# www.tpitic.com.mx 
+iptables -A PAGINAS -d 148.233.136.210 -j ACCEPT
+# portal.banamex.com.mx 
+iptables -A PAGINAS -d 192.193.230.100 -j ACCEPT
+# www.lacanchitateam.com 
+iptables -A PAGINAS -d 50.30.34.0/24 -j ACCEPT
+# www.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# www.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# www.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# www.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# www.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# vs.mcafeeasap.com 
+iptables -A PAGINAS -d 161.69.25.0/24 -j ACCEPT
+# vs.mcafeeasap.com 
+iptables -A PAGINAS -d 161.69.25.0/24 -j ACCEPT
+# mvt.mcafee.com 
+iptables -A PAGINAS -d 161.69.13.0/24 -j ACCEPT
+# www.mcafeeasap.com 
+iptables -A PAGINAS -d 161.69.25.0/24 -j ACCEPT
+# www.banamex.com 
+iptables -A PAGINAS -d 199.67.181.131 -j ACCEPT
+# es.metric-conversions.org 
+iptables -A PAGINAS -d 94.102.155.138 -j ACCEPT
+# www.seccionamarilla.com 
+iptables -A PAGINAS -d 200.57.151.168 -j ACCEPT
+# www.guiapv.com 
+iptables -A PAGINAS -d 198.23.48.168 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# tpitic.edesarrollos.com 
+iptables -A PAGINAS -d 173.214.160.247 -j ACCEPT
+# verificacfdi.facturaelectronica.sat.gob.mx 
+iptables -A PAGINAS -d 70.37.72.213 -j ACCEPT
+# tramitesdigitales.sat.gob.mx 
+iptables -A PAGINAS -d 200.33.74.98 -j ACCEPT
+# www.consulta.sat.gob.mx 
+iptables -A PAGINAS -d 200.33.74.126 -j ACCEPT
+# maps.l.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.l.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.l.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.l.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.l.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.l.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.l.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.l.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.l.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.l.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.l.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# dynamic.nara.com.mx 
+iptables -A PAGINAS -d 54.245.253.113 -j ACCEPT
+# www.burodecredito.com.mx 
+iptables -A PAGINAS -d 207.249.90.183 -j ACCEPT
+# www.consulta.sat.gob.mx 
+iptables -A PAGINAS -d 200.33.74.126 -j ACCEPT
+# tramitesdigitales.sat.gob.mx 
+iptables -A PAGINAS -d 200.33.74.98 -j ACCEPT
+# www.axiometrics.us 
+iptables -A PAGINAS -d 69.43.172.12 -j ACCEPT
+# www.nutrimentospurina.com.mx 
+iptables -A PAGINAS -d 167.136.35.0/24 -j ACCEPT
+# www.portalproveedores.esab.com.mx 
+iptables -A PAGINAS -d 12.6.24.0/24 -j ACCEPT
+# red.cofidi.com.mx 
+iptables -A PAGINAS -d 201.116.200.0/24 -j ACCEPT
+# wsbeta.fedex.com 
+iptables -A PAGINAS -d 204.135.13.0/24 -j ACCEPT
+# images.fedex.com 
+iptables -A PAGINAS -d 23.213.71.0/24 -j ACCEPT
+# www.fedex.com 
+iptables -A PAGINAS -d 23.213.71.0/24 -j ACCEPT
+# fedex.com 
+iptables -A PAGINAS -d 204.135.13.0/24 -j ACCEPT
+# fedex.com 
+iptables -A PAGINAS -d 204.135.8.0/24 -j ACCEPT
+# fedex.com 
+iptables -A PAGINAS -d 204.135.8.0/24 -j ACCEPT
+# fedex.com 
+iptables -A PAGINAS -d 204.135.8.0/24 -j ACCEPT
+# fedex.com 
+iptables -A PAGINAS -d 204.135.13.0/24 -j ACCEPT
+# fedex.com 
+iptables -A PAGINAS -d 204.135.13.0/24 -j ACCEPT
+# ayuda.fedex.com 
+iptables -A PAGINAS -d 204.135.8.0/24 -j ACCEPT
+# ayuda.fedex.com 
+iptables -A PAGINAS -d 204.135.13.0/24 -j ACCEPT
+# ayuda.fedex.com 
+iptables -A PAGINAS -d 204.135.8.0/24 -j ACCEPT
+# ayuda.fedex.com 
+iptables -A PAGINAS -d 204.135.13.0/24 -j ACCEPT
+# ayuda.fedex.com 
+iptables -A PAGINAS -d 204.135.8.0/24 -j ACCEPT
+# ayuda.fedex.com 
+iptables -A PAGINAS -d 204.135.13.0/24 -j ACCEPT
+# wsbeta.fedex.com 
+iptables -A PAGINAS -d 204.135.13.0/24 -j ACCEPT
+# www.midotsystem.com 
+iptables -A PAGINAS -d 62.128.52.0/24 -j ACCEPT
+# smetrics.fedex.com 
+iptables -A PAGINAS -d 63.140.57.0/24 -j ACCEPT
+# www.cobranzas.com 
+iptables -A PAGINAS -d 74.200.246.0/24 -j ACCEPT
+# red.cofidi.com.mx 
+iptables -A PAGINAS -d 201.116.200.0/24 -j ACCEPT
+# 74.125.227.226 
+iptables -A PAGINAS -d 74.125.227.226 -j ACCEPT
+# www.occ.com.mx 
+iptables -A PAGINAS -d 97.65.90.0/24 -j ACCEPT
+# www.lala.com.mx 
+iptables -A PAGINAS -d 208.109.122.0/24 -j ACCEPT
+# intercall.adobeconnect.com 
+iptables -A PAGINAS -d 66.235.155.0/24 -j ACCEPT
+# solucionescanacar.com.mx 
+iptables -A PAGINAS -d 192.232.192.0/24 -j ACCEPT
+# fedex.com.ssl.d2.sc.omtrdc.net 
+iptables -A PAGINAS -d 63.140.57.0/24 -j ACCEPT
+# transportespitic.adobeconnect.com 
+iptables -A PAGINAS -d 63.140.35.0/24 -j ACCEPT
+# www.cursosvts.com 
+iptables -A PAGINAS -d 54.245.253.0/24 -j ACCEPT
+# www.e-facturate.com 
+iptables -A PAGINAS -d 50.22.12.133 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# 161.165.206.19 
+iptables -A PAGINAS -d 161.165.206.19 -j ACCEPT
+# boveda.banamex.com.mx 
+iptables -A PAGINAS -d 192.193.229.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# maps.google.com.mx 
+iptables -A PAGINAS -d 74.125.227.0/24 -j ACCEPT
+# www.enercard.com.mx 
+iptables -A PAGINAS -d 201.140.162.0/24 -j ACCEPT
+# web.sedeb2b.com 
+iptables -A PAGINAS -d 212.49.145.0/24 -j ACCEPT
+# www.alzasa.mx 
+iptables -A PAGINAS -d 201.120.170.0/24 -j ACCEPT
+# www.checkplus.com.mx 
+iptables -A PAGINAS -d 64.29.145.0/24 -j ACCEPT
+# maps.googleapis.com 
+iptables -A PAGINAS -d 216.58.218.0/24 -j ACCEPT
+# www.checkplus.com.mx 
+iptables -A PAGINAS -d 64.29.145.0/24 -j ACCEPT
+# www.armstrongweb.com.mx 
+iptables -A PAGINAS -d 67.225.196.0/24 -j ACCEPT
+# wwww.tpitic.com.mx 
+iptables -A PAGINAS -d 192.168.100.0/24 -j ACCEPT
+# www.lossolucionistaspromo.com 
+iptables -A PAGINAS -d 206.191.132.0/24 -j ACCEPT
+# www.fedex.com 
+iptables -A PAGINAS -d 23.213.71.0/24 -j ACCEPT
+# 201.120.170.32 
+iptables -A PAGINAS -d 201.120.170.32 -j ACCEPT
+# www.cobranzasdata6.com 
+iptables -A PAGINAS -d 74.200.246.0/24 -j ACCEPT
+# fedex.demdex.net 
+iptables -A PAGINAS -d 54.85.131.0/24 -j ACCEPT
+# fedex.demdex.net 
+iptables -A PAGINAS -d 54.209.16.0/24 -j ACCEPT
+# fedex.demdex.net 
+iptables -A PAGINAS -d 54.210.178.0/24 -j ACCEPT
+# fedex.demdex.net 
+iptables -A PAGINAS -d 54.174.243.0/24 -j ACCEPT
+# fedex.demdex.net 
+iptables -A PAGINAS -d 54.236.70.0/24 -j ACCEPT
+# fedex.demdex.net 
+iptables -A PAGINAS -d 54.210.199.0/24 -j ACCEPT
+# fedex.demdex.net 
+iptables -A PAGINAS -d 54.236.217.0/24 -j ACCEPT
+# fedex.demdex.net 
+iptables -A PAGINAS -d 54.209.199.0/24 -j ACCEPT
+# banamex.com.mx 
+iptables -A PAGINAS -d 199.67.181.0/24 -j ACCEPT
+# banamex.com.mx 
+iptables -A PAGINAS -d 199.67.180.0/24 -j ACCEPT
+# 189.216.254.50 
+iptables -A PAGINAS -d 189.216.254.50 -j ACCEPT
+# suntorymexicana.com 
+iptables -A PAGINAS -d 148.233.140.0/24 -j ACCEPT
+# pagoenlinea.sukarne.com 
+iptables -A PAGINAS -d 187.216.127.0/24 -j ACCEPT
+# www.fedex.com 
+iptables -A PAGINAS -d 23.213.71.0/24 -j ACCEPT
+# buzonnarancia.cloudapp.net 
+iptables -A PAGINAS -d 157.55.194.0/24 -j ACCEPT
+# gaservicio.ddns.net 
+iptables -A PAGINAS -d 187.189.47.0/24 -j ACCEPT
+# 189.173.104.251 
+iptables -A PAGINAS -d 189.173.104.251 -j ACCEPT
+# www.sterlingtms.net 
+iptables -A PAGINAS -d 96.45.83.0/24 -j ACCEPT
+# www.sterlingtms.net 
+iptables -A PAGINAS -d 96.45.82.0/24 -j ACCEPT
+# www.sterlingtms.net 
+iptables -A PAGINAS -d 96.45.82.0/24 -j ACCEPT
+# www.sterlingtms.net 
+iptables -A PAGINAS -d 96.45.83.0/24 -j ACCEPT
+# prueba.com 
+iptables -A PAGINAS -d 176.74.176.0/24 -j ACCEPT
+# cursosvts.com 
+iptables -A PAGINAS -d 54.245.253.113 -j ACCEPT
+# 23.73.107.113 
+iptables -A PAGINAS -d 23.73.107.113 -j ACCEPT
+# 200.77.235.244 
+iptables -A PAGINAS -d 200.77.235.244 -j ACCEPT
+# sistemas.tpitic.com.mx 
+iptables -A PAGINAS -d 148.233.136.0/24 -j ACCEPT
+# www.dynamicvts.com 
+iptables -A PAGINAS -d 166.62.32.0/24 -j ACCEPT
+# www.dynamicvts.com 
+iptables -A PAGINAS -d 166.62.32.0/24 -j ACCEPT
+# www.edcinvoice.com 
+iptables -A PAGINAS -d 70.105.79.0/24 -j ACCEPT
+# red.cofidi.com.mx 
+iptables -A PAGINAS -d 201.116.200.0/24 -j ACCEPT
+
+
+#
+# ACCESOS PARA ROAMING USERS
+#
+
+#
+# SIN ACCESO
+#
+
+#
+# ACCESO TOTAL
+#
+
+#
+# Libre WWW Sin MSN
+#
+# Julio Garcia 
+iptables -A FORWARD -m mac --mac-source ec:a8:6b:a3:89:6d -p tcp  -m multiport --dport 80,443 -j ACCEPT
+
+#
+# Libre WWW CON MSN
+#
+
+#
+# Solo paginas permitidas
+#
+# Beatriz Barrancas 
+iptables -A FORWARD -m mac --mac-source 74:27:EA:21:A1:C8 -j PAGINAS
+# Leyla Ayala 
+iptables -A FORWARD -m mac --mac-source 74:27:EA:21:A0:A7 -j PAGINAS
+# Gabriela Uriarte Guzman 
+iptables -A FORWARD -m mac --mac-source 40:61:86:5B:8A:47 -j PAGINAS
+# Jose Bernardo Osuna Lucero 
+iptables -A FORWARD -m mac --mac-source 50:B7:C3:6C:DA:21 -j PAGINAS
+
+#
+# Paginas especiales en oficinas
+#
+
+# Allow McAfee Corporate 
+iptables -A FORWARD -d 208.69.153.0/24 -j ACCEPT
+
+
+# Servidor secundario de facturacion 
+iptables -A FORWARD -s 192.168.3.250/32 -j ACCEPT
+
+
+# SALIDA AL PBX
+iptables -A FORWARD -p tcp -s 10.150.12.10/32  --destination-port 80 -j ACCEPT
+/sbin/iptables -t nat -I POSTROUTING -p tcp -s 10.150.12.10/32 --destination-port 80 -j MASQUERADE
+
+# Zabbix Trapper 
+iptables -A FORWARD -p tcp -s 192.168.159.210/24 --destination-port 10050 -j ACCEPT
+iptables -A INPUT -p tcp -s 192.168.159.210/24 --destination-port 10050 -j ACCEPT
+
+
+# Allow VNC from Tlalnepantla Admin
+iptables -A FORWARD -p tcp -m multiport -s 192.168.10.162/32 --dport 22,5900 -j ACCEPT
+
+
+# Arem access 
+iptables -A FORWARD -p tcp -s 192.168.16.2/32 --destination-port 22 -j ACCEPT
+
+# Printer administrator
+iptables -A FORWARD -p udp -d 192.168.120.129/32 --destination-port 161 -j ACCEPT
+iptables -A FORWARD -p udp -d 192.168.120.129/32 --source-port 161 -j ACCEPT
+iptables -A FORWARD -p udp -s 192.168.120.129/32 --destination-port 161 -j ACCEPT
+iptables -A FORWARD -p udp -s 192.168.120.129/32 --source-port 161 -j ACCEPT
+iptables -A FORWARD -p tcp -d 192.168.120.129/32 --destination-port 9090 -j ACCEPT
+iptables -A FORWARD -p tcp -d 192.168.120.129/32 --source-port 9090 -j ACCEPT
+iptables -A FORWARD -p tcp -s 192.168.120.129/32 --destination-port 9090 -j ACCEPT
+iptables -A FORWARD -p tcp -s 192.168.120.129/32 --source-port 9090 -j ACCEPT
+
+# OPENVPN
+iptables -A INPUT -s 10.100.200.1/32 -j ACCEPT
+iptables -A FORWARD -s 10.100.200.1/32 -j ACCEPT
+iptables -A INPUT -d 10.100.200.1/32 -j ACCEPT
+iptables -A FORWARD -d 10.100.200.1/32 -j ACCEPT
+
+
+# ALLOW SSH CONNECTIONS FROM WWW
+iptables -A INPUT -p tcp -s 192.168.100.2 --destination-port 22 -j ACCEPT
+
+
+# ALLOW SSH CONNECTIONS FROM SMB
+iptables -A INPUT -p tcp -s 192.168.100.3 --destination-port 22 -j ACCEPT
+
+# ALLOW SSH CONNECTIONS FROM AVAYA
+iptables -A INPUT -p tcp -s 192.168.100.180 --destination-port 22 -j ACCEPT
+# FRAME RELAY ROUTER CONNECTIONS
+iptables -I INPUT -p tcp -s 192.168.112.254 --destination-port 23 -j ACCEPT
+iptables -I INPUT -p tcp -s 192.168.220.0/24 --destination-port 23 -j ACCEPT
+
+
+# MULTICAST PACKETS FOR OSPF
+iptables -I INPUT -s 192.168.112.254 -d 224.0.0.5 -j ACCEPT
+
+
+# ICMP
+iptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type 11 -j ACCEPT
+iptables -A INPUT -p icmp --icmp-type 8 -j ACCEPT
+iptables -A FORWARD -p icmp --icmp-type echo-reply -j ACCEPT
+iptables -A FORWARD -p icmp --icmp-type echo-request -j ACCEPT
+iptables -A FORWARD -p icmp --icmp-type 11 -j ACCEPT
+iptables -A FORWARD -p icmp --icmp-type 8 -j ACCEPT
+
+# DROP MSN SERVICES
+iptables -A FORWARD -d 64.4.13.0/24 -j DROP
+iptables -A FORWARD -d 217.32.247.3 -j DROP
+iptables -A FORWARD -d 207.46.110.3 -j DROP
+iptables -A FORWARD -d 207.46.104.20 -j DROP
+
+# FUCK THE REST HTTP
+iptables -A FORWARD -o eth2 -p tcp -m multiport --dport 443,80 -j DROP
+
+# DROP Nasty NETBIOS
+iptables -A FORWARD -p udp -m multiport --dport 135,136,137,138,139 -j DROP
+iptables -A FORWARD -p tcp -m multiport --dport 135,136,137,138,139 -j DROP
+
+# Dont log Broadcasts
+iptables -A INPUT -s 192.168.12.0/24 -d 192.168.12.255/32 -j DROP
+
+
+# WIRELESS ACCESS POINT # 1 
+iptables -A FORWARD -p tcp -s 192.168.12.174 -d 192.168.3.190/32 -m multiport --dport 1521,1421 -j ACCEPT
+iptables -A FORWARD -p tcp -s 192.168.12.174 -d 192.168.100.132/32 -m multiport --dport 1521,1421 -j ACCEPT
+iptables -A FORWARD -p tcp -s 192.168.12.174 -d 192.168.100.2/32 -m multiport --dport 80,443 -j ACCEPT
+iptables -A FORWARD -p tcp -s 192.168.12.174 -d 148.233.136.210/32 -m multiport --dport 80,443,53 -j ACCEPT
+iptables -A FORWARD -p udp -s 192.168.12.174 -d 148.233.136.210/32 -m multiport --dport 80,443,53 -j ACCEPT
+iptables -A FORWARD -s 192.168.12.174/32 -j LOG --log-prefix "ACCESS_POINT_TRAFFIC "
+iptables -A FORWARD -s 192.168.12.174/32 -j DROP
+1
+#LOG
+iptables -A INPUT -j LOG --log-level 4 --log-prefix "INPUT "
+#iptables -A OUTPUT -j LOG --log-level 4 --log-prefix "OUTPUT "
+iptables -A FORWARD -j LOG --log-level 4 --log-prefix "FORWARD "
+
+
+# Blocking on chain INPUT
+iptables -A INPUT -j DROP
+
+# Blocking on chain FORWARD
+iptables -A FORWARD -j DROP

@@ -1,0 +1,27 @@
+<script>
+/*	function subirFactura(tipo){
+		$.ajax({
+			url: "guardarFacturas.php",
+			data: "tipo=cbb&"+$("#factura").serialize(),
+			type: "POST",
+			success: function(data){
+				alert("exito");
+			},
+			failure: function(){
+
+			}
+		});
+	}*/
+</script>
+<table>
+<hidden id="tipo" name="tipo" value="cfd" />
+<tr><td>Cuenta COI:</td><td><input type="text" id="cuenta_coi" name="cuenta_coi" maxlength="19"/><input type="button" value="Elegir Proveedor" onclick="javascript:window.open('elijeproveedor.php','','width=600,height=300,scrollbars=yes');"</td></tr>
+<tr><td>RFC:</td><td><input type="text" id="rfc" name="rfc" maxlength="13"/></td></tr>
+<tr><td>Nombre Proveedor:</td><td><input type="text" id="proveedor" name="proveedor" maxlength="100"/></td></tr>
+<tr><td>Numero Aprobacion SICOFI:</td><td><input type="text" id="num_sicofi" name="num_sicofi" /></td></tr>
+<tr><td>Fecha Aprobaci&oacute;n: </td><td><input type="text" id="fec_aprob" name ="fec_aprob" /></td></tr>
+<tr><td>Folios Autorizados: </td><td><input type="text" id="folios_aut" name="folios_aut" /></td></tr>
+<tr><td>Serie: </td><td><input type="text" id="serie" name="serie" /></td></tr>
+<tr><td>Folio Factura: </td><td><input type="text" id="folio_fac" name="folio_fac" /></td></tr>
+<tr><td colspan="2" align="center"><br /><br /><input type="submit" value="enviar"/><br /></td></tr>
+</table>

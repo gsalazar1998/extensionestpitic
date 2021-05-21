@@ -1,0 +1,25 @@
+1	Guias
+2	Reparto
+3	Paginas Web
+4	Correo Electronico
+5	Estadisticas
+6	Recepcion
+7	Envio
+8	SOAC
+9	SOAL
+10	MEnsajeria 
+11	Red
+12	Reinstalacion de programas
+13	Reportes uninet
+14	Reportes Qtracks
+15	MacroPro
+16	Transporte
+17	Instalacion de dispositivos (Hardware)
+18	SAGM
+19	Telefonia
+20	Acceso a Sistemas
+21	Configuraciones de Accesorios
+22	Accesos temporales a servicios de internet
+23	Accesos o problemas con sitios web especificos
+24	MOV 800
+25	Venta de celulares(no hay existencia)

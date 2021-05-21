@@ -1,0 +1,99 @@
+
+Configuraci¢n IP de Windows
+
+   Nombre de host. . . . . . . . . : LapHEMP
+   Sufijo DNS principal  . . . . . : 
+   Tipo de nodo. . . . . . . . . . : h¡brido
+   Enrutamiento IP habilitado. . . : no
+   Proxy WINS habilitado . . . . . : no
+   Lista de b£squeda de sufijos DNS: VCL.tpitic.com.mx
+
+Adaptador de Ethernet Ethernet 2:
+
+   Estado de los medios. . . . . . . . . . . : medios desconectados
+   Sufijo DNS espec¡fico para la conexi¢n. . : 
+   Descripci¢n . . . . . . . . . . . . . . . : TAP-Windows Adapter V9
+   Direcci¢n f¡sica. . . . . . . . . . . . . : 00-FF-90-A4-5B-7A
+   DHCP habilitado . . . . . . . . . . . . . : s¡
+   Configuraci¢n autom tica habilitada . . . : s¡
+
+Adaptador de LAN inal mbrica Conexi¢n de  rea local* 3:
+
+   Estado de los medios. . . . . . . . . . . : medios desconectados
+   Sufijo DNS espec¡fico para la conexi¢n. . : 
+   Descripci¢n . . . . . . . . . . . . . . . : Adaptador virtual directo Wi-Fi de Microsoft
+   Direcci¢n f¡sica. . . . . . . . . . . . . : AE-E0-10-7F-DB-D3
+   DHCP habilitado . . . . . . . . . . . . . : s¡
+   Configuraci¢n autom tica habilitada . . . : s¡
+
+Adaptador de LAN inal mbrica Conexi¢n de  rea local* 2:
+
+   Estado de los medios. . . . . . . . . . . : medios desconectados
+   Sufijo DNS espec¡fico para la conexi¢n. . : 
+   Descripci¢n . . . . . . . . . . . . . . . : Adaptador virtual de red hospedada de Microsoft
+   Direcci¢n f¡sica. . . . . . . . . . . . . : DE-E0-10-7F-DB-D3
+   DHCP habilitado . . . . . . . . . . . . . : s¡
+   Configuraci¢n autom tica habilitada . . . : s¡
+
+Adaptador de LAN inal mbrica Wi-Fi:
+
+   Estado de los medios. . . . . . . . . . . : medios desconectados
+   Sufijo DNS espec¡fico para la conexi¢n. . : 
+   Descripci¢n . . . . . . . . . . . . . . . : Qualcomm Atheros QCA9377 Wireless Network Adapter
+   Direcci¢n f¡sica. . . . . . . . . . . . . : AC-E0-10-7F-DB-D3
+   DHCP habilitado . . . . . . . . . . . . . : s¡
+   Configuraci¢n autom tica habilitada . . . : s¡
+
+Adaptador de Ethernet Ethernet:
+
+   Sufijo DNS espec¡fico para la conexi¢n. . : VCL.tpitic.com.mx
+   Descripci¢n . . . . . . . . . . . . . . . : Realtek PCIe GBE Family Controller #2
+   Direcci¢n f¡sica. . . . . . . . . . . . . : 2C-60-0C-85-85-38
+   DHCP habilitado . . . . . . . . . . . . . : s¡
+   Configuraci¢n autom tica habilitada . . . : s¡
+   V¡nculo: direcci¢n IPv6 local. . . : fe80::84a8:e86a:bb7d:6bea%3(Preferido) 
+   Direcci¢n IPv4. . . . . . . . . . . . . . : 192.168.81.146(Preferido) 
+   M scara de subred . . . . . . . . . . . . : 255.255.255.0
+   Concesi¢n obtenida. . . . . . . . . . . . : martes, 16 de febrero de 2016 07:40:32 a. m.
+   La concesi¢n expira . . . . . . . . . . . : martes, 16 de febrero de 2016 07:40:32 p. m.
+   Puerta de enlace predeterminada . . . . . : 192.168.81.200
+   Servidor DHCP . . . . . . . . . . . . . . : 192.168.81.200
+   IAID DHCPv6 . . . . . . . . . . . . . . . : 53239820
+   DUID de cliente DHCPv6. . . . . . . . . . : 00-01-00-01-1C-D3-CB-08-2C-60-0C-85-85-38
+   Servidores DNS. . . . . . . . . . . . . . : 192.168.81.200
+                                       192.168.100.2
+                                       148.233.136.210
+                                       8.8.8.8
+   NetBIOS sobre TCP/IP. . . . . . . . . . . : habilitado
+
+Adaptador de t£nel Teredo Tunneling Pseudo-Interface:
+
+   Sufijo DNS espec¡fico para la conexi¢n. . : 
+   Descripci¢n . . . . . . . . . . . . . . . : Teredo Tunneling Pseudo-Interface
+   Direcci¢n f¡sica. . . . . . . . . . . . . : 00-00-00-00-00-00-00-E0
+   DHCP habilitado . . . . . . . . . . . . . : no
+   Configuraci¢n autom tica habilitada . . . : s¡
+   Direcci¢n IPv6 . . . . . . . . . . : 2001:0:5ef5:79fb:2886:59f:3f57:ae6d(Preferido) 
+   V¡nculo: direcci¢n IPv6 local. . . : fe80::2886:59f:3f57:ae6d%11(Preferido) 
+   Puerta de enlace predeterminada . . . . . : ::
+   IAID DHCPv6 . . . . . . . . . . . . . . . : 452984832
+   DUID de cliente DHCPv6. . . . . . . . . . : 00-01-00-01-1C-D3-CB-08-2C-60-0C-85-85-38
+   NetBIOS sobre TCP/IP. . . . . . . . . . . : deshabilitado
+
+Adaptador de t£nel isatap.VCL.tpitic.com.mx:
+
+   Estado de los medios. . . . . . . . . . . : medios desconectados
+   Sufijo DNS espec¡fico para la conexi¢n. . : VCL.tpitic.com.mx
+   Descripci¢n . . . . . . . . . . . . . . . : Adaptador ISATAP de Microsoft #4
+   Direcci¢n f¡sica. . . . . . . . . . . . . : 00-00-00-00-00-00-00-E0
+   DHCP habilitado . . . . . . . . . . . . . : no
+   Configuraci¢n autom tica habilitada . . . : s¡
+
+Adaptador de t£nel isatap.{327EC534-60A0-46F3-A84F-686747DCA2DB}:
+
+   Estado de los medios. . . . . . . . . . . : medios desconectados
+   Sufijo DNS espec¡fico para la conexi¢n. . : 
+   Descripci¢n . . . . . . . . . . . . . . . : Adaptador ISATAP de Microsoft #5
+   Direcci¢n f¡sica. . . . . . . . . . . . . : 00-00-00-00-00-00-00-E0
+   DHCP habilitado . . . . . . . . . . . . . : no
+   Configuraci¢n autom tica habilitada . . . : s¡

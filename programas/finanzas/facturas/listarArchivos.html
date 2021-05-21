@@ -1,0 +1,177 @@
+<?php
+//Limito la busqueda
+$TAMANO_PAGINA = 10;
+
+//examino la página a mostrar y el inicio del registro a mostrar
+$pagina = isset($_GET["pagina"]) ? $_GET["pagina"] : null;
+if ($pagina == null) {
+    $inicio = 0;
+    $pagina=1;
+}
+else {
+    $inicio = ($pagina - 1) * $TAMANO_PAGINA;
+}
+
+$ssql = "SELECT * FROM facturas WHERE 1 = 1";
+if($proveedor != null){
+	$ssql .= " AND proveedor = '".$proveedor."'";
+}
+if($finicio != null && $ffinal){
+	$ssql .= " AND FECHA_REGISTRO BETWEEN '".$finicio."' AND '".$ffinal."'";
+}
+if($fcaduc != null){
+	$ssql .= " AND IMP_FECHA_CADUC = '".$fcaduc."'";
+}
+if($fverif != null){
+	$ssql .= " AND FECHA_VERIF = '".$fverif."'";
+}
+if($rfc != null){
+	$ssql .= " AND RFC = '".$rfc."'";
+}
+if($uverifico != null){
+	$ssql .= " AND USUARIO_VERIF = '".$uverifico."'";
+}
+
+$rs = mysql_query($ssql,$conn);
+$num_total_registros = mysql_num_rows($rs);
+
+//calculo el total de páginas
+$total_paginas = ceil($num_total_registros / $TAMANO_PAGINA);
+
+//construyo la sentencia SQL
+$ssql = "SELECT * FROM facturas WHERE 1 = 1";
+if($proveedor != null){
+	$ssql .= " AND proveedor = '".$proveedor."'";
+}
+if($finicio != null && $ffinal){
+	$ssql .= " AND FECHA_REGISTRO BETWEEN '".$finicio."' AND '".$ffinal."'";
+}
+if($fcaduc != null){
+	$ssql .= " AND IMP_FECHA_CADUC = '".$fcaduc."'";
+}
+if($fverif != null){
+	$ssql .= " AND FECHA_VERIF = '".$fverif."'";
+}
+if($rfc != null){
+	$ssql .= " AND RFC = '".$rfc."'";
+}
+if($uverifico != null){
+	$ssql .= " AND USUARIO_VERIF = '".$uverifico."'";
+}
+
+$ssql .= " limit " . $inicio . "," . $TAMANO_PAGINA;
+$rs = mysql_query($ssql);
+$facturas = 
+"<br /><br /><br />
+<table style='border:solid black 1px; padding:5px;'>
+<thead><tr style='font-size:10px;font-weight:bold;'>
+	<th>ID REGISTRO</th>
+	<th>FECHA REGISTRO</th>
+	<th>CUENTA COI</th>
+	<th>RFC</th>
+	<th>PROVEEDOR</th>
+	<th>FOLIOS AUTORIZADOS</th>
+	<th>FECHA CADUCIDAD</th>
+	<th>FECHA VERIFICACION</th>
+	<th>USUARIO VERIFICO</th>
+	<th>PDF</th>
+	<th>FACTURA</th>
+</tr></tehead>";
+
+while ($fila = mysql_fetch_object($rs)){
+    $facturas .= "<tr>
+		<td>".$row['ID_REGISTRO']."</td>
+		<td>".$row['FECHA_REGISTRO']."</td>
+		<td>".$row['CUENTA_COI']."</td>
+		<td>".$row['RFC']."</td>
+		<td>".$row['PROVEEDOR']."</td>
+		<td>".$row['IMP_FOLIOS_AUT']."</td>
+		<td>".$row['IMP_FECHA_CADUC']."</td>
+		<td>".$row['FECHA_VERIF']."</td>
+		<td>".$row['USUARIO_VERIF']."</td>
+		<td><a href='facturas/".$row['RUTA_IMG']."' target='_blank'>".$row['RUTA_IMG']."</a></td>
+		<td><a href='descargar_archivo.php?id=".$row['ID_REGISTRO']."&nombre=".$row['PROVEEDOR']."'>Descargar</a></td>
+	</tr>";
+}
+//cerramos el conjunto de resultado y la conexión con la base de datos
+mysql_free_result($rs);
+mysql_close($conn);
+
+//muestro los distintos índices de las páginas, si es que hay varias páginas
+if ($total_paginas > 1){
+    for ($i=1;$i<=$total_paginas;$i++){
+       if ($pagina == $i)
+          //si muestro el índice de la página actual, no coloco enlace
+          echo $pagina . " ";
+       else
+          //si el índice no corresponde con la página mostrada actualmente, coloco el enlace para ir a esa página
+          echo "<a href='listarArchivos.php?pagina=" . $i . "&criterio=" . $txt_criterio . "'>" . $i . "</a> ";
+    }
+} 
+?>
+<script type='text/javascript'>
+	$(function(){
+		/********* para las fechas *********/
+		 $.datepicker.regional['es'] = {
+		  closeText: 'Cerrar',
+		  prevText: '<Ant',
+		  nextText: 'Sig>',
+		  currentText: 'Hoy',
+		  monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+		  monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+		  dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'S&aacute;bado'],
+		  dayNamesShort: ['Dom','Lun','Mar','Mi&eacute','Juv','Vie','S&aacute;b'],
+		  dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
+		  weekHeader: 'Sm',
+		  dateFormat: 'yy/mm/dd',
+		  firstDay: 1,
+		  isRTL: false,
+		  showMonthAfterYear: false,
+		  yearSuffix: ''};
+	   $.datepicker.setDefaults($.datepicker.regional['es']);
+	   
+		$( '#fcad' ).datepicker();
+		$( '#fverif' ).datepicker();
+		$( '#finicial' ).datepicker();
+		$( '#ffinal' ).datepicker();
+		$( '#buscar_btn' ).click(function(){
+			$.ajax({
+				url: 'listarArchivos.php',
+				data: $('#busquedaFacturas').serialize()+'&bandera=1',
+				type: 'POST',
+				success: function(data){
+					$('#info').html(data);
+				},
+				failure: function(){
+					alert('Error en la peticion');
+				}
+			});
+		});
+	});
+</script>
+<style>
+	thead #resultados{
+		padding-left:12px;
+		text-align:center;
+		border:solid black 1px;
+	}
+	
+	td {
+		text-align: center;
+	}
+</style>
+
+<form id="busquedaFacturas">
+<table id="resultados">
+<tr><td><label for="proveedor">Proveedor</label></td><td><input type="text" id="proveedor" name="proveedor" /></td></tr>
+<tr><td><label for="rfc">RFC</label></td><td><input type="text" id="rfc" name="rfc" /></td></tr>
+<tr><td><label for="uverifico">Usuario que verifico</label></td><td><input type="text" id="uverifico" name="uverifico" /></td></tr>
+<tr><td><label for="fcad">Fecha Caducaci&oacute;n</label></td><td><input type="text" id="fcad" name="fcad" /></td></tr>
+<tr><td><label for="fverif">Fecha Verificaci&oacute;n</label></td><td><input type="text" id="fverif" name="fverif" /></td></tr>
+<tr><td colspan="2"><strong>Fechas De Registro:</strong></td></tr>
+<tr><td style="padding-left:12px;"><label for="finicial">Fecha Inicial</label></td><td><input type="text" id="finicial" name="finicial" /></td></tr>
+<tr><td style="padding-left:12px;"><label for="ffinal">Fecha Final</label></td><td><input type="text" id="ffinal" name="ffinal" /></td></tr>
+<tr><td colspan="2"><input type="button" id="buscar_btn" name="buscar_btn" value="Buscar" align="rigth" /></td></tr>
+</table>
+</form>
+<div id="info"></div>

@@ -1,0 +1,4 @@
+autorizar_caso.php
+cerrar_caso.php
+funciones_generales.php
+solicitarAutorizacion.php

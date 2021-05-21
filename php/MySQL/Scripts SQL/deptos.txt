@@ -1,0 +1,14 @@
+DGEN	Direccion General
+DDDP	Direccion DDP
+DFAD	Direccion de Finanzas y Administracion
+ARCH	Archivo
+SIST	Sistemas
+VECC	Ventas CC
+RECH	Recursos Humanos
+VEZP	Ventas Zona Pacífico
+TRAN	Transporte
+MERC	Mercadotecnia
+GERN	Gerencia Regional Norte
+GERC	Gerencia Regional Centro
+GERO	Gerencia Regional Occidente
+GRNO	Gerencia Regional Noroeste

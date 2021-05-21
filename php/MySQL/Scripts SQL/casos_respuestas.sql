@@ -1,0 +1,1 @@
+CREATE TABLE casos_respuestas(	ID_CASO int,	USUARIO varchar(30),	RESPUESTA VARCHAR(255),	FECHA datetime)

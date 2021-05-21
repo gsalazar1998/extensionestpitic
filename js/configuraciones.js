@@ -1,0 +1,1 @@
+/*$(document).ready(function(){    $("#man1").click(function(){		$("#cont_modal").html("<object data='manuales/LEVANTA_CASO.pdf' type='application/pdf' width='100%' height='700px'></object>")	});});*/

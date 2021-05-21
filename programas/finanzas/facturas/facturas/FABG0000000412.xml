@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Comprobante xmlns="http://www.sat.gob.mx/cfd/2"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.sat.gob.mx/cfd/2
+http://www.sat.gob.mx/sitio_internet/cfd/2/cfdv22.xsd" version="2.2"
+serie="ABG" folio="412" fecha="2013-08-23T09:18:50"
+sello="XzF03Z9cpc1RJom4o7gAaPdswHBKhY//cvS1ebxAl/CS0DfQr+03/cdcgt/gbWPQWwgGA
+JFRduuh2Ms8AmpQVsi2TTHQxt5fyGtXttb9ZBE6zd924ZBRE/FR4QFYzduyDstUEeRBcQ/H9HNzz
+QZBsivH8S5IHMN/Mo7mGtIAy90=" noAprobacion="282458" anoAprobacion="2010"
+formaDePago="PAGO EN UNA SOLA EXHIBICION"
+noCertificado="00001000000202503699"
+certificado="MIIEkTCCA3mgAwIBAgIUMDAwMDEwMDAwMDAyMDI1MDM2OTkwDQYJKoZIhvcNAQE
+FBQAwggGVMTgwNgYDVQQDDC9BLkMuIGRlbCBTZXJ2aWNpbyBkZSBBZG1pbmlzdHJhY2nDs24gVHJ
+pYnV0YXJpYTEvMC0GA1UECgwmU2VydmljaW8gZGUgQWRtaW5pc3RyYWNpw7NuIFRyaWJ1dGFyaWE
+xODA2BgNVBAsML0FkbWluaXN0cmFjacOzbiBkZSBTZWd1cmlkYWQgZGUgbGEgSW5mb3JtYWNpw7N
+uMSEwHwYJKoZIhvcNAQkBFhJhc2lzbmV0QHNhdC5nb2IubXgxJjAkBgNVBAkMHUF2LiBIaWRhbGd
+vIDc3LCBDb2wuIEd1ZXJyZXJvMQ4wDAYDVQQRDAUwNjMwMDELMAkGA1UEBhMCTVgxGTAXBgNVBAg
+MEERpc3RyaXRvIEZlZGVyYWwxFDASBgNVBAcMC0N1YXVodMOpbW9jMRUwEwYDVQQtEwxTQVQ5NzA
+3MDFOTjMxPjA8BgkqhkiG9w0BCQIML1Jlc3BvbnNhYmxlOiBDZWNpbGlhIEd1aWxsZXJtaW5hIEd
+hcmPDrWEgR3VlcnJhMB4XDTEyMTIwNDE3NDgxMloXDTE2MTIwNDE3NDgxMlowgdIxIzAhBgNVBAM
+TGlRSQU5TUE9SVEVTIFBJVElDIFNBIERFIENWMSMwIQYDVQQpExpUUkFOU1BPUlRFUyBQSVRJQyB
+TQSBERSBDVjEjMCEGA1UEChMaVFJBTlNQT1JURVMgUElUSUMgU0EgREUgQ1YxJTAjBgNVBC0THFR
+QSTczMDIwMVYyOCAvIENPRko1NDA1MDNNQzMxHjAcBgNVBAUTFSAvIENPRko1NDA1MDNIU1JOR1I
+wMDEaMBgGA1UECxMRTUFUUklaIEhFUk1PU0lMTE8wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoG
+BANaVPN6Rjs/eb0X32kKotl9Lc0Y3umSE5NNuFtieMZ7imzi65Xx+4gTLjDSh4RbtQnmCDE8QHLe
+XzU/dLvFP83Bmrnik7uzUcagaSOM6FLRlzq9fbdtj542cYkf5PLCNfF3rr4cZsakQ+SL6d99odT1
+/9W79IBNVrrSZi7ZI4oIhAgMBAAGjHTAbMAwGA1UdEwEB/wQCMAAwCwYDVR0PBAQDAgbAMA0GCSq
+GSIb3DQEBBQUAA4IBAQATLmAuN1H7xJ8lIw56tbvlizev+LUALpgDNj7h9qeOx3NmNCIgJaaG+TY
+C7bfdDDrXXYKhevNyomF0T/g/s02beW49v681FJ9+oQVQJGwtP8H17wGc41QnkrnSM0VpMNL0IXf
+kIRaW8R9khb1Mdl8fKyEBR+WOY71cRk+qZ0PGV+oLBR0RjiAq1aLztUslVHQqAwUxfoSCK+MLK6/
+AhtnYf520+6pN3YUwxuML+yyFCewNQ3AtVUJRXGdnv8wT0nuPe1zu6QyXjNcbb0cmYdpTVLxEEjR
+Z0z550a3wkS7XZyOdb/kZG1TjynqhL/0VNhwgkMpUIiC2QI3x3xbKUyaX"
+subTotal="2952.45" total="3424.84" metodoDePago="No identificado"
+tipoDeComprobante="ingreso" LugarExpedicion="Calzada de los Pinos SN , Los
+Naranjos, 83060, Hermosillo, Hermosillo, Sonora, Mexico" NumCtaPago="No
+identificado" TipoCambio="1.00" Moneda="Peso Mexicano">
+	<Emisor rfc="TPI730201V28" nombre="TRANSPORTES PITIC, S.A. DE C.V.">
+		<DomicilioFiscal calle="Calzada de los Pinos" noExterior="SN" colonia="Los
+Naranjos" localidad="Hermosillo" municipio="Hermosillo" estado="Sonora"
+pais="Mexico" codigoPostal="83060"/><ExpedidoEn calle="Calzada de los Pinos"
+noExterior="SN" colonia="Los Naranjos" localidad="Hermosillo"
+municipio="Hermosillo" estado="Sonora" pais="Mexico"
+codigoPostal="83060"/><RegimenFiscal Regimen="Regimen Simplificado de Ley
+Personas Morales"/></Emisor>
+	<Receptor rfc="COFM560726AV7" nombre="CONS FIGUEROA MIGUEL ANGEL">
+		<Domicilio calle="Calzada de los Pinos a Espaldas de Central de Autobuses"
+noExterior="SN" colonia="Los Naranjos" localidad="Hermosillo"
+municipio="Hermosillo" estado="Sonora" pais="Mexico"
+codigoPostal="83060"/></Receptor>
+	<Conceptos>
+		<Concepto cantidad="1.0000" unidad="LITROS" noIdentificacion="002"
+descripcion="Combustible" valorUnitario="2952.45"
+importe="2952.45"/></Conceptos><Impuestos
+totalImpuestosTrasladados="472.39">
+		<Traslados><Traslado impuesto="IVA" tasa="16.00"
+importe="472.39"/></Traslados></Impuestos></Comprobante>
+
