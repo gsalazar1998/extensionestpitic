@@ -119,7 +119,7 @@ if($con){
 				echo $objFN->getOficinas();
 			?>
 			<br /><br />
-			<input type='submit' style_"float:right;" class="boton_personalizado" value='Buscar' />
+			<input type='submit' class="boton_personalizado" value='Buscar' />
 			</form>
 		</div>
 	</div>
