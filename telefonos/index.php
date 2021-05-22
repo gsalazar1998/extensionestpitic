@@ -10,6 +10,9 @@ if($con){
 	<html>
 	<head>
 	<title>Reporte de Extensiones</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<style>
 		.boton_personalizado{
 		text-docoration: none;
@@ -60,7 +63,7 @@ if($con){
 		}
 		tr:hover, tr.odd:hover {
 			background-color: #3d80df;
-			color: #ffffff;
+			color: ##030303;
 		}
 		caption {
 			height: 45px;
@@ -110,6 +113,8 @@ if($con){
 	<div id="content" style="width:500px;">
 		<div id="logo" style="float:left;">
 			<img src="logo_adobe.jpg" width="190px" height="120px"/><br />
+			<br>
+			<br>
 			<a href="http://sistemas.tpitic.com.mx/manuales/manual_telefono.pdf">Descargar Manual de Telefonos</a>
 		</div><br />
 		<div id="formulario" style="margin-top:20px;">
@@ -119,6 +124,8 @@ if($con){
 				echo $objFN->getOficinas();
 			?>
 			<br /><br />
+			<br>
+			<br>
 			<input type='submit' class="boton_personalizado" value='Buscar' />
 			</form>
 		</div>
@@ -146,9 +153,9 @@ function buscar($con, $oficina, $target){
 		$count = ldap_count_entries($con, $srch);
 		?>
 		<center>
-		<table>
+		<table class="table table-striped">
 		<thead>
-		<tr>
+		<tr text-align="center">
 			<th>Extensi&oacute;n</th>
 			<th>Usuario</th>
 			<th>Nombre</th>
