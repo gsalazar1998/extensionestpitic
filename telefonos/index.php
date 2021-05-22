@@ -11,13 +11,30 @@ if($con){
 	<head>
 	<title>Reporte de Extensiones</title>
 	<style>
+		.boton_personalizado{
+		text-docoration: none;
+		padding:10px;
+		font-weight:1000;
+		font-size: 13px;
+		color: #ffffff;
+		background-color: #228B22;
+		border-radius:6px;
+		border: 2px solid #2f4f4f;
+		}
+		.boton_personalizado:hover{
+		color: #228B22;
+		background-color: #ffffff;
+		}
+		.redondeado{
+		border-radius:5px;
+		}
 		/* ---- ( iTunes CSS ) ---- */
 		table { 
 			font: 80% Verdana, Arial, Helvetica, sans-serif;
 			color: #000;
-			text-align: left;
+			text-align: center;
 			border-collapse: collapse;
-			border: 1px solid #666666;
+			border: 2px solid #666666;
 			border-top: none;	
 		}
 		
@@ -92,17 +109,17 @@ if($con){
 	<center>
 	<div id="content" style="width:500px;">
 		<div id="logo" style="float:left;">
-			<img src="transportes-pitic.jpg" width="150px" height="100px"/><br />
+			<img src="logo_adobe.jpg" width="190px" height="120px"/><br />
 			<a href="http://sistemas.tpitic.com.mx/manuales/manual_telefono.pdf">Descargar Manual de Telefonos</a>
 		</div><br />
 		<div id="formulario" style="margin-top:20px;">
 			<form style="margin-top:20px;">
-			Texto a Buscar: <input type="text" id="target" name="target" /><br /><br /> Oficina
+			Texto a Buscar: <input type="text" id="target" class="redondeado" name="target" /><br /><br /> Oficina
 			<?php 
 				echo $objFN->getOficinas();
 			?>
 			<br /><br />
-			<input type='submit' value='Buscar' />
+			<input type='submit' style_"float:right;" class="boton_personalizado" value='Buscar' />
 			</form>
 		</div>
 	</div>
