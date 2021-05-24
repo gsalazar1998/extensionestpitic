@@ -9,10 +9,12 @@ if($con){
 	?>
 	<html>
 	<head>
-	<title>Reporte de Extensiones</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<title>Reporte de Extensiones</title>
+	
 	<style>
 		.boton_personalizado{
 		text-docoration: none;
@@ -63,7 +65,7 @@ if($con){
 		}
 		tr:hover, tr.odd:hover {
 			background-color: #3d80df;
-			color: ##030303;
+			color: #030303;
 		}
 		caption {
 			height: 45px;
@@ -153,7 +155,7 @@ function buscar($con, $oficina, $target){
 		$count = ldap_count_entries($con, $srch);
 		?>
 		<center>
-		<table class="table table-striped">
+		<table class="table table-hover">
 		<thead>
 		<tr text-align="center">
 			<th>Extensi&oacute;n</th>
