@@ -114,14 +114,13 @@ if($con){
 	<center>
 	<div id="content" style="width:500px;">
 		<div id="logo" style="float:left;">
-			<img src="logo_adobe.jpg" width="190px" height="120px"/><br />
-			<br>
-			<br>
+			<img src="logo_adobe.jpg" width="200px" height="155px"/><br />
+			<br>	
 			<a href="http://sistemas.tpitic.com.mx/manuales/manual_telefono.pdf">Descargar Manual de Telefonos</a>
 		</div><br />
 		<div id="formulario" style="margin-top:20px;">
 			<form style="margin-top:20px;">
-			Texto a Buscar: <input type="text" id="target" class="redondeado" name="target" /><br /><br /> Oficina
+			Usuario: <input type="text" id="target" class="redondeado" name="target" /><br /><br /> Oficina:
 			<?php 
 				echo $objFN->getOficinas();
 			?>
@@ -190,7 +189,7 @@ function buscar($con, $oficina, $target){
 		$count = ldap_count_entries($con, $srch);
 		?>
 		<center>
-		<table>
+		<table class="table table-hover">
 		<thead>
 		<tr>
 			<th>Extensi&oacute;n</th>
