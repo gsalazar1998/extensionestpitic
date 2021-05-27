@@ -145,7 +145,7 @@ if($con){
 				<div class="row" style="float:right">
 					<div class="col-xs-4">
 						<div id="cajadetexto">
-				<input type="text" id="target" class="redondeado" name="target" />
+				<input type="text" id="target" class="form-control" class="redondeado" name="target" />
 						</div>
 					</div>	
 				</div>						
