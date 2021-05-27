@@ -48,11 +48,7 @@ if($con){
 			color: #000;
 		}
 		
-		#cajadetexto{
-		height:35px;
-     		width: 200px;
-		}
-		
+				
 		table a {
 			text-decoration: underline;
 		}
@@ -117,24 +113,19 @@ if($con){
 	</head>
 	<body>
 	<center>
-	<div id="content" style="width:500px;">
+	<div id="content" style="width:600px;">
 		<div id="logo" style="float:left;">
 			<img src="logo_adobe.jpg" width="200px" height="155px"/><br />
-			<br>	
-			<a href="http://sistemas.tpitic.com.mx/manuales/manual_telefono.pdf">Descargar Manual de Telefonos</a>
+			<br>				
 		</div><br />
 		<div id="formulario" style="margin-top:20px;">
 			<form style="margin-top:20px;">
 				<font size="3">
-				Oficina: &nbsp;&nbsp;&nbsp;
-				<div class="row" style="float:right">
-					<div class="col-xs-4">
+				Oficina: 				
 			<?php 
 				echo $objFN->getOficinas();
-			?>
-				
-					</div>
-					 &nbsp;&nbsp;
+			?>				
+					
 					<input type='submit' style="float:right" class="boton_personalizado" value='Buscar' />
 				</div>
 				<br>
@@ -142,13 +133,9 @@ if($con){
 				<br>
 				<br>
 			Usuario: 
-				<div class="row" style="float:right">
-					<div class="col-xs-4">
-						<div id="cajadetexto">
-				<input type="text" id="target" class="form-control" class="redondeado" name="target" />
-						</div>
-					</div>	
-				</div>						
+				
+				<input type="text" id="target" class="redondeado" name="target" />
+										
 				</font>
 			
 			</form>
