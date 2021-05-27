@@ -48,6 +48,11 @@ if($con){
 			color: #000;
 		}
 		
+		#cajadetexto{
+		height:35px;
+     		width: 200px;
+		}
+		
 		table a {
 			text-decoration: underline;
 		}
@@ -120,14 +125,32 @@ if($con){
 		</div><br />
 		<div id="formulario" style="margin-top:20px;">
 			<form style="margin-top:20px;">
-			Usuario: <input type="text" id="target" class="redondeado" name="target" /><br /><br /> Oficina:
+				<font size="3">
+				Oficina: &nbsp;&nbsp;&nbsp;
+				<div class="row" style="float:right">
+					<div class="col-xs-4">
 			<?php 
 				echo $objFN->getOficinas();
 			?>
-			<br /><br />
-			<br>
-			<br>
-			<input type='submit' class="boton_personalizado" value='Buscar' />
+				
+					</div>
+					 &nbsp;&nbsp;
+					<input type='submit' style="float:right" class="boton_personalizado" value='Buscar' />
+				</div>
+				<br>
+				<br>
+				<br>
+				<br>
+			Usuario: 
+				<div class="row" style="float:right">
+					<div class="col-xs-4">
+						<div id="cajadetexto">
+				<input type="text" id="target" class="redondeado" name="target" />
+						</div>
+					</div>	
+				</div>						
+				</font>
+			
 			</form>
 		</div>
 	</div>
