@@ -152,9 +152,9 @@ if($con){
 				<br />
 				</div>
 				<br>
-				<center>Nombre:</center>
+				<center>Extension o usuario:</center>
 				<div class="desplazar">
-				<input type="text" id="target" class="redondeado" name="target" />
+				<input type="text" id="target" class="redondeado" name="target" size="32" placeholder="Presione [enter] despues de ingresar"/>
 				</div>						
 			
 				</font>
