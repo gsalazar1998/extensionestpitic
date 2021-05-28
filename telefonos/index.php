@@ -18,18 +18,28 @@ if($con){
 	<style>
 		.boton_personalizado{
 		text-docoration: none;
-		padding:10px;
+		margin-top:center;
+		padding:8px 13px;
 		font-weight:1000;
 		font-size: 13px;
 		color: #ffffff;
 		background-color: #228B22;
 		border-radius:6px;
 		border: 2px solid #2f4f4f;
+		height: 33px;
 		}
+		
+		.desplazar{
+		position: center;
+		top: 1px;
+		left: 11px;
+		}
+		
 		.boton_personalizado:hover{
 		color: #228B22;
 		background-color: #ffffff;
 		}
+		
 		.redondeado{
 		border-radius:5px;
 		}
@@ -47,27 +57,32 @@ if($con){
 			font: 80% Verdana, Arial, Helvetica, sans-serif;
 			color: #000;
 		}
-		
 				
 		table a {
 			text-decoration: underline;
 		}
+		
 		table a:visited {
 			text-decoration: none;
 		}
+		
 		tr.odd {
 			background-color: #ebf3ff;
 		}
+		
 		tr a {
 			color: #000000;
 		}
+		
 		tr:hover a {
 			color: #ffffff;
 		}
+		
 		tr:hover, tr.odd:hover {
 			background-color: #3d80df;
 			color: #030303;
 		}
+		
 		caption {
 			height: 45px;
 			line-height: 44px;
@@ -83,32 +98,39 @@ if($con){
 			border-left: 2px solid #616161;
 			border-right: 2px solid #616161;
 		}
+		
 		thead th {
 			font-size: 105%;
 			color: #000;
 			background: #ffffff url('http://www.johnlawrence.net/itable/tbar.gif') repeat-x;
 			height: 33px;
 		}
+		
 		thead th:hover {
 			background: #ffffff url(http://www.johnlawrence.net/itable/tbov.gif) repeat-x;
-			
 		}
+		
 		tr {
 			vertical-align: top;
 		}
+		
 		tr,th,td {
 			padding: .75em;
 		}
+		
 		td {
 			border-left: 1px solid #dadada;
 		}
+		
 		tfoot tr {
 			background: #fff url(bbar.gif) repeat-x;
 		}
+		
 		tfoot td, tfoot th{
 			color: #000;
 			border: 0px;
 		}
+		
 	</style>
 	</head>
 	<body>
@@ -116,29 +138,29 @@ if($con){
 	<div id="content" style="width:600px;">
 		<div id="logo" style="float:left;">
 			<img src="logo_adobe.jpg" width="200px" height="155px"/><br />
-			<br>				
+			<br />				
 		</div><br />
 		<div id="formulario" style="margin-top:20px;">
 			<form style="margin-top:20px;">
 				<font size="3">
+				<br>
 				Oficina: 				
 			<?php 
 				echo $objFN->getOficinas();
-			?>				
-					
+			?>
 					<input type='submit' style="float:right" class="boton_personalizado" value='Buscar' />
+				<br />
 				</div>
 				<br>
-				<br>
-				<br>
-				<br>
-			Usuario: 
-				
+				<center>Nombre:</center>
+				<div class="desplazar">
 				<input type="text" id="target" class="redondeado" name="target" />
-										
+				</div>						
+			
 				</font>
 			
 			</form>
+			<br>
 		</div>
 	</div>
 	</center>
