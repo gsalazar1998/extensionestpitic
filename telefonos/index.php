@@ -16,6 +16,15 @@ if($con){
 	<title>Reporte de Extensiones</title>
 	
 	<style>
+		img{
+    		filter: brightness(1.1);
+    		mix-blend-mode:multiply;
+    		}
+		
+		body{
+    		background: #F8F9F9;
+    		}
+		
 		.boton_personalizado{
 		text-docoration: none;
 		margin-top:center;
