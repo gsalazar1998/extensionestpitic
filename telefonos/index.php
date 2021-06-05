@@ -9,6 +9,7 @@ if($con){
 	?>
 	<html>
 	<head>
+	<!--Se agrego cuatro links de bootstrap para colocarle diseño a una tabla-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -16,15 +17,18 @@ if($con){
 	<title>Reporte de Extensiones</title>
 	
 	<style>
+		/*Se agrego la siguiente propiedad para quitarle el fondo blanco al logotipo de la empresa*/
 		img{
     		filter: brightness(1.1);
     		mix-blend-mode:multiply;
     		}
 		
+		/*Se le agrego la siguiente propiedad al body para agregarle un color de fondo a la pagina web*/
 		body{
     		background: #F8F9F9;
     		}
 		
+		/*Se creó la siguiente clase para darle un diseño al boton*/
 		.boton_personalizado{
 		text-docoration: none;
 		margin-top:center;
@@ -38,17 +42,20 @@ if($con){
 		height: 33px;
 		}
 		
+		/*Esta clase se utilizo para dezplazar una caja de texto, acomodandola en el centro*/
 		.desplazar{
 		position: center;
 		top: 1px;
 		left: 11px;
 		}
 		
+		/*Esta clase es del mismo boton, dandole un efecto al momento de que el mouse pase encima de el*/
 		.boton_personalizado:hover{
 		color: #228B22;
 		background-color: #ffffff;
 		}
 		
+		/*Esta clase le da un efecto redondo a las cajas de texto*/
 		.redondeado{
 		border-radius:5px;
 		}
@@ -144,24 +151,28 @@ if($con){
 	</head>
 	<body>
 	<center>
-	<div id="content" style="width:600px;">
+	<div id="content" style="width:600px;">		
 		<div id="logo" style="float:left;">
+			<!--En la propiedad de img se actualizo el logo y se le modificaron las dimensiones-->
 			<img src="logo_adobe.jpg" width="200px" height="155px"/><br />
 			<br />				
 		</div><br />
 		<div id="formulario" style="margin-top:20px;">
 			<form style="margin-top:20px;">
+				<!--Se le agrego una etiqueta font para aumentar el tamaño de letra-->
 				<font size="3">
 				<br>
 				Oficina: 				
 			<?php 
 				echo $objFN->getOficinas();
 			?>
+					<!--Se le agrego la clase al boton-->
 					<input type='submit' style="float:right" class="boton_personalizado" value='Buscar' />
 				<br />
 				</div>
 				<br>
 				<center>Extension o usuario:</center>
+				<!--Dentro de un div se puso la caja de texto y se le agrego la clase de dezplazar-->
 				<div class="desplazar">
 				<input type="text" id="target" class="redondeado" name="target" size="32" placeholder="Presione [enter] despues de ingresar"/>
 				</div>						
@@ -197,6 +208,7 @@ function buscar($con, $oficina, $target){
 		<center>
 		<table class="table table-hover">
 		<thead>
+		<!--En el tr se le agrego la propiedad de text-align para centrar todo el contenido de la tabla-->
 		<tr text-align="center">
 			<th>Extensi&oacute;n</th>
 			<th>Usuario</th>
@@ -230,6 +242,7 @@ function buscar($con, $oficina, $target){
 		$count = ldap_count_entries($con, $srch);
 		?>
 		<center>
+		<!--Se le agrego la siguiente clase a la tabla para poder agarrar el diseño de bootstrap-->
 		<table class="table table-hover">
 		<thead>
 		<tr>
